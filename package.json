@@ -1,0 +1,28 @@
+{
+  "name": "onefly",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ONE FLY — today's fly, the same one for everyone. Its whole brain is 50 NAND gates, and every tick is sealed.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "replay": "tsx scripts/replay.ts",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.2",
+    "@types/react": "18.3.24",
+    "@types/react-dom": "18.3.7",
+    "tsx": "4.23.15",
+    "typescript": "5.9.2"
+  }
+}
