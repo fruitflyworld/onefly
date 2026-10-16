@@ -1,0 +1,14 @@
+{
+  "v": "ONEFLY-AGENT/1",
+  "agent": "example",
+  "date": "2026-10-15",
+  "claim": {
+    "champion": "mossy-heron",
+    "lived": 150,
+    "meals": 8,
+    "gf": 6,
+    "hash": "0b6574383d165535c82b30d486b2c1ed5af4901c7f0d010d8896e3eefd3cb307"
+  },
+  "note": "the first record: yesterday's champion, sealed from the date alone",
+  "seal": "1d6992eba0c4d2f3bc34ecaa3472a67e959f70076104b9feaa87404d428d9862"
+}

@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
-const title = "ONE FLY — today's fly, the same one for everyone";
-const description =
-  "Every day there is one fly. Its entire brain is 50 NAND gates, its whole day is decided by the date " +
-  "alone, and the transcript is sealed with a hash chain. No server, no database, no randomness that is not in the seed.";
+import { SITE_URL, SITE_NAME, SITE_TITLE, SITE_DESCRIPTION } from "./site";
 
 export const metadata: Metadata = {
-  title,
-  description,
-  metadataBase: new URL("https://onefly-nu.vercel.app"),
-  openGraph: { title, description, type: "website" },
-  twitter: { card: "summary_large_image", title, description },
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
+  openGraph: { title: SITE_TITLE, description: SITE_DESCRIPTION, type: "website", siteName: SITE_NAME },
+  twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION },
   icons: { icon: "/icon.svg" }
 };
 

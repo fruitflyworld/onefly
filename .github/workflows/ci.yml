@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: typecheck
+        run: npm run typecheck
+
+      - name: tests
+        run: npm test
+
+      - name: the lineage ledger recomputes from the founder
+        run: npm run lineage --check
+
+      # every submitted agent record is replayed and re-hashed here;
+      # a single bad record fails the build and blocks the merge.
+      - name: verify agent records
+        run: |
+          files=$(find agents -name '*.json' -not -path 'agents/example/*' | sort)
+          if [ -n "$files" ]; then npm run verify-record -- $files; else echo "no agent records yet"; fi
+
+      - name: the example record still verifies
+        run: npm run verify-record -- agents/example/2026-10-15.json
+
+      - name: build
+        run: npm run build

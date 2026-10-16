@@ -18,6 +18,7 @@ import { evalWord, BRAIN } from "./netlist";
 import { encodeInputs, levelInt, decodeOutputs, type Senses, type Behavior } from "./encode";
 import { decideWord, type RuleId } from "./rules";
 import { GENESIS, recordHash, chainHash } from "./hash";
+import { mulberry32 } from "./rand";
 
 export const FLY_VERSION = "ONEFLY/1";
 export const WORLD = { w: 21, h: 21 } as const;
@@ -33,6 +34,8 @@ export interface Tune {
   hMax: number; // hunger at which the fly dies
   visitDecay: number; // novelty lost per time a cell is entered
   senseDecay: number; // sense value lost per cell of distance
+  startX: number; // where on the dish this fly wakes up, as an offset from the centre
+  startY: number;
 }
 
 export const TUNE: Tune = {
@@ -43,12 +46,47 @@ export const TUNE: Tune = {
   hFood: 450,
   hMax: 1000,
   visitDecay: 250,
-  senseDecay: 160
+  senseDecay: 160,
+  startX: 0,
+  startY: 0
 };
 
 export interface Cell {
   x: number;
   y: number;
+}
+
+/** A dish. Shared by every fly of one day, and a pure function of the day's seed. */
+export interface World {
+  w: number;
+  h: number;
+  start: Cell;
+  food: Cell[];
+  danger: Cell[];
+}
+
+/**
+ * Scatter one day's dish. Food first, then danger, never on the start cell and
+ * never overlapping — all from `seed`, so everyone gets the same dish.
+ */
+export function worldFor(seed: number, foodCount: number, dangerCount: number, reserved: Cell[] = []): World {
+  const rnd = mulberry32(seed);
+  const start: Cell = { x: WORLD.w >> 1, y: WORLD.h >> 1 };
+  const taken = new Set<number>([start.y * WORLD.w + start.x]);
+  for (const c of reserved) taken.add(c.y * WORLD.w + c.x);
+  const place = (n: number): Cell[] => {
+    const out: Cell[] = [];
+    let guard = 0;
+    while (out.length < n && guard++ < 10000) {
+      const c: Cell = { x: Math.floor(rnd() * WORLD.w), y: Math.floor(rnd() * WORLD.h) };
+      const k = c.y * WORLD.w + c.x;
+      if (taken.has(k)) continue;
+      taken.add(k);
+      out.push(c);
+    }
+    return out;
+  };
+  return { w: WORLD.w, h: WORLD.h, start, food: place(foodCount), danger: place(dangerCount) };
 }
 
 export interface Tick {
@@ -74,7 +112,7 @@ export interface Day {
   seed: number;
   date: string;
   tune: Tune;
-  world: { w: number; h: number; start: Cell; food: Cell[]; danger: Cell[] };
+  world: World;
   ticks: Tick[];
   alive: boolean;
   /** hex SHA-256 of the whole transcript (chain of every tick). */
@@ -83,17 +121,6 @@ export interface Day {
   chain: string[];
 }
 
-/* Deterministic PRNG. Same generator the rest of the family uses. */
-function mulberry32(seed: number): () => number {
-  let a = seed >>> 0;
-  return function () {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
 
 /** The integer that names a day: 20261016 for 16 Oct 2026 (UTC). */
 export function daySeed(d: Date = new Date()): number {
@@ -147,34 +174,27 @@ const clamp = (v: number, lo: number, hi: number) => (v < lo ? lo : v > hi ? hi 
 
 const key = (c: Cell) => c.y * WORLD.w + c.x;
 
-/** The single source of truth for a day: feed it a seed, get that fly's whole life. */
-export function simulate(seed: number, date: string = String(seed), over: Partial<Tune> = {}): Day {
+/**
+ * The single source of truth for a fly: feed it a seed, get its whole life.
+ *
+ * `over` tunes the body (metabolism, senses) and `dish` supplies a world another
+ * caller already built — that is how the eight flies of one day share a dish.
+ * Left out, the dish is derived from `seed`.
+ */
+export function simulate(seed: number, date: string = String(seed), over: Partial<Tune> = {}, dish?: World): Day {
   const T: Tune = { ...TUNE, ...over };
-  const rnd = mulberry32(seed);
-  const start: Cell = { x: WORLD.w >> 1, y: WORLD.h >> 1 };
-
-  // Scatter food and danger, never on the starting cell and never overlapping.
-  const taken = new Set<number>([key(start)]);
-  const place = (n: number): Cell[] => {
-    const out: Cell[] = [];
-    let guard = 0;
-    while (out.length < n && guard++ < 10000) {
-      const c: Cell = { x: Math.floor(rnd() * WORLD.w), y: Math.floor(rnd() * WORLD.h) };
-      if (taken.has(key(c))) continue;
-      taken.add(key(c));
-      out.push(c);
-    }
-    return out;
-  };
-  const food = place(T.food);
-  const danger = place(T.danger);
+  const world = dish ?? worldFor(seed, T.food, T.danger);
+  const { start, food, danger } = world;
 
   const visits = new Map<number, number>();
   const ticks: Tick[] = [];
   const chain: string[] = [];
   let prevChain = GENESIS;
 
-  let pos: Cell = { ...start };
+  let pos: Cell = {
+    x: clamp(start.x + T.startX, 0, WORLD.w - 1),
+    y: clamp(start.y + T.startY, 0, WORLD.h - 1)
+  };
   let hunger = 0;
   let alive = true;
   let prevBehavior = 2; // a fly starts out exploring (rule 6's novelty keeps it that way early)
@@ -263,7 +283,7 @@ export function simulate(seed: number, date: string = String(seed), over: Partia
     seed,
     date,
     tune: T,
-    world: { w: WORLD.w, h: WORLD.h, start, food, danger },
+    world,
     ticks,
     alive: ticks.length > 0 && ticks[ticks.length - 1].alive,
     hash: prevChain,

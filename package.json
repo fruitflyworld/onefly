@@ -11,7 +11,10 @@
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "replay": "tsx scripts/replay.ts",
-    "check": "npm run typecheck && npm test && npm run build"
+    "lineage": "tsx scripts/lineage.ts",
+    "record": "tsx scripts/make-record.ts",
+    "verify-record": "tsx scripts/verify-record.ts",
+    "check": "npm run typecheck && npm test && npm run lineage --check && npm run build"
   },
   "dependencies": {
     "next": "14.2.35",
