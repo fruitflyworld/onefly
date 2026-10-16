@@ -2,6 +2,8 @@
 
 **Every day there is one fly. Everyone sees the same one.**
 
+Live: <https://onefly-nu.vercel.app>
+
 Its entire brain is **50 NAND gates** — no model, no training, no weights. Its whole
 day is a function of the date alone. Come back tomorrow and it is a different fly;
 open the page on any machine, tomorrow or in ten years, and it is the *same* fly,

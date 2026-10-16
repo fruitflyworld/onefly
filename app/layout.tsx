@@ -9,7 +9,7 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
-  metadataBase: new URL("https://onefly.xyz"),
+  metadataBase: new URL("https://onefly-nu.vercel.app"),
   openGraph: { title, description, type: "website" },
   twitter: { card: "summary_large_image", title, description },
   icons: { icon: "/icon.svg" }
