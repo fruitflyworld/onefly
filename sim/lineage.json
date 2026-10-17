@@ -6656,6 +6656,29 @@
       "lived": 150,
       "alive": true,
       "hash": "4ec90945eecc413f9b12def6a29851a0a89a420626f71474ad4c14e86c3c4dc3"
+    },
+    {
+      "d": "2026-10-17",
+      "founding": {
+        "hStep": 11,
+        "hFood": 477,
+        "senseDecay": 100,
+        "visitDecay": 321,
+        "startX": 2,
+        "startY": 0
+      },
+      "champion": {
+        "hStep": 11,
+        "hFood": 477,
+        "senseDecay": 100,
+        "visitDecay": 321,
+        "startX": 2,
+        "startY": 0
+      },
+      "name": "copper-moth",
+      "lived": 150,
+      "alive": true,
+      "hash": "a615d5383c2e7e299c3b269c27a1f978f2d3ca7ac85ef3798fa8bba456d050e2"
     }
   ]
 }
