@@ -6656,6 +6656,144 @@
       "lived": 150,
       "alive": true,
       "hash": "4ec90945eecc413f9b12def6a29851a0a89a420626f71474ad4c14e86c3c4dc3"
+    },
+    {
+      "d": "2026-10-17",
+      "founding": {
+        "hStep": 11,
+        "hFood": 477,
+        "senseDecay": 100,
+        "visitDecay": 321,
+        "startX": 2,
+        "startY": 0
+      },
+      "champion": {
+        "hStep": 11,
+        "hFood": 477,
+        "senseDecay": 100,
+        "visitDecay": 321,
+        "startX": 2,
+        "startY": 0
+      },
+      "name": "copper-moth",
+      "lived": 150,
+      "alive": true,
+      "hash": "a615d5383c2e7e299c3b269c27a1f978f2d3ca7ac85ef3798fa8bba456d050e2"
+    },
+    {
+      "d": "2026-10-18",
+      "founding": {
+        "hStep": 12,
+        "hFood": 477,
+        "senseDecay": 123,
+        "visitDecay": 321,
+        "startX": 2,
+        "startY": 0
+      },
+      "champion": {
+        "hStep": 12,
+        "hFood": 514,
+        "senseDecay": 140,
+        "visitDecay": 321,
+        "startX": 2,
+        "startY": 0
+      },
+      "name": "taut-heron",
+      "lived": 150,
+      "alive": true,
+      "hash": "0689fb09088a4566a80d4d5d772c0f234d33a55bdc78fcdaf63c07501d00db49"
+    },
+    {
+      "d": "2026-10-19",
+      "founding": {
+        "hStep": 12,
+        "hFood": 514,
+        "senseDecay": 162,
+        "visitDecay": 327,
+        "startX": 2,
+        "startY": 2
+      },
+      "champion": {
+        "hStep": 12,
+        "hFood": 514,
+        "senseDecay": 162,
+        "visitDecay": 327,
+        "startX": 2,
+        "startY": 2
+      },
+      "name": "eager-moth",
+      "lived": 115,
+      "alive": false,
+      "hash": "076e11ee5637d2e9373bd9e20d2141616f9b10c21d901d9c04586a8c96b953c8"
+    },
+    {
+      "d": "2026-10-20",
+      "founding": {
+        "hStep": 15,
+        "hFood": 514,
+        "senseDecay": 167,
+        "visitDecay": 327,
+        "startX": 2,
+        "startY": 2
+      },
+      "champion": {
+        "hStep": 14,
+        "hFood": 514,
+        "senseDecay": 167,
+        "visitDecay": 344,
+        "startX": 2,
+        "startY": 0
+      },
+      "name": "dim-cinder",
+      "lived": 150,
+      "alive": true,
+      "hash": "f84f31ee01b234ffaa5a003c3b2d89d9fd0d2b8870ccf43a2869684bc8c370f4"
+    },
+    {
+      "d": "2026-10-21",
+      "founding": {
+        "hStep": 17,
+        "hFood": 573,
+        "senseDecay": 167,
+        "visitDecay": 344,
+        "startX": 2,
+        "startY": 0
+      },
+      "champion": {
+        "hStep": 17,
+        "hFood": 573,
+        "senseDecay": 187,
+        "visitDecay": 344,
+        "startX": 2,
+        "startY": -1
+      },
+      "name": "spare-magpie",
+      "lived": 125,
+      "alive": false,
+      "hash": "aff3702172620c491e9ba6ea980a504c96a32f99ae7d53b65357e6d7b3b7602a"
+    },
+    {
+      "d": "2026-10-22",
+      "founding": {
+        "hStep": 17,
+        "hFood": 573,
+        "senseDecay": 186,
+        "visitDecay": 344,
+        "startX": 2,
+        "startY": -3
+      },
+      "champion": {
+        "hStep": 14,
+        "hFood": 567,
+        "senseDecay": 190,
+        "visitDecay": 344,
+        "startX": 3,
+        "startY": -3
+      },
+      "name": "feral-siskin",
+      "lived": 150,
+      "alive": true,
+      "hash": "123da8c652c360e138b93e602f5e54ad50f7b8082dc7fce01ba4f10013f67b24"
     }
   ]
 }
